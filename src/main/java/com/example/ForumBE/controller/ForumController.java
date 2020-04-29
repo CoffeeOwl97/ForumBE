@@ -1,6 +1,7 @@
 package com.example.ForumBE.controller;
 
 import com.example.ForumBE.model.PostResponse;
+import com.example.ForumBE.model.TopicResponse;
 import com.example.ForumBE.service.ForumService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -36,19 +37,23 @@ public class ForumController {
         );
     }
 
-    @GetMapping(path = "/retrieve-posts-given-topic/{topicId}")
-    @ApiOperation(value = "Handles retrieving posts for a given topic identifier")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Request was successful and posts were retrieved",
-                    response = PostResponse.class),
-            @ApiResponse(code = 404, message = "No resources found for the given topic id")})
-    public ResponseEntity<PostResponse> retrievePostsForTopic(
-            @PathVariable Long topicId) {
+    @GetMapping(
+            path = {"/retrieve-topic/{topicId}"}
+    )
+    @ApiOperation("Handles retrieving posts for a given topic identifier")
+    @ApiResponses({@ApiResponse(
+            code = 200,
+            message = "Request was successful and posts were retrieved",
+            response = TopicResponse.class
+    ), @ApiResponse(
+            code = 404,
+            message = "No resources found for the given topic id"
+    )})
+    public ResponseEntity<TopicResponse> retrievePostsForTopic(@PathVariable Long topicId) {
         return ResponseEntity.ok(
-                PostResponse.builder()
-                        .posts(forumService.retrievePostGivenTopicId(topicId))
+                TopicResponse.builder()
+                        .topic(this.forumService.retrievePostGivenTopicId(topicId))
                         .status(HttpStatus.OK.value())
-                        .build()
-        );
+                        .build());
     }
 }
