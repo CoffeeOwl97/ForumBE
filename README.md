@@ -6,7 +6,7 @@ for CMP6210 Cloud Computing at Birmingham City University.
 
 ## Setup
 
-**Requirements**
+### Requirements
 
 - JDK 8 - available via [Oracle](https://www.oracle.com/java), or alternatives such as [OpenJDK](https://openjdk.java.net/)
 - PostgreSQL - available via the [PostgreSQL](https://www.postgresql.org) website. 
@@ -14,7 +14,7 @@ for CMP6210 Cloud Computing at Birmingham City University.
 It's recommended that you make use of a database management tool such as pgAdmin. The official installer from
 PostgreSQL's website will give you the option to install pgAdmin.
 
-**Building**
+### Building
 
 This project makes use of [Lombok](https://projectlombok.org/). To get this project to build in InteliJ Idea you
 will need to download the Lombok plugin and enable annotation processors. 
@@ -28,6 +28,27 @@ This project is built using [Gradle](https://gradle.org). The Gradle wrapper has
 so Gradle does not need to be downloaded to build the project.
 
 To build with the Gradle wrapper enter the following into a terminal
-```bash
+```zsh
 ./gradlew clean build
+```
+
+### running
+
+The application makes use of multiple configuration profiles which are switched out or overridden depending on the
+environment that the application is to be run in. The environment to run the application in can be declared in a couple
+of ways.
+
+- In Intellij Idea Ultimate edition you can simply enter the name of the environment into the 'Active Profiles' text
+box of your Spring Boot run configuration.
+- If you have Intellij Idea community edition then you can manually add the parameter 'spring.profiles.active' and then
+provide a profile such as 'dev' or 'prod'.
+- If running from the command line then use the following command to start the application with the profile set.
+```zsh
+./gradlew bootRun --args ' --spring.profiles.active={profile}'
+```
+Replace {profile} with the desired profile.
+
+e.g.
+```
+./gradlew bootRun --args ' --spring.profiles.active=dev'
 ```
