@@ -14,11 +14,11 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @ApiModel(description = "The response object given when requests are made to the service")
 @Builder
-public class PostResponse {
-    @ApiModelProperty(value = "the posts returned from the request")
-    private ArrayList<Post> posts;
-    @ApiModelProperty(value = "An error message will display here if the request fails")
+public class TopicResponse {
+    @ApiModelProperty("the topics returned from the request")
+    private ArrayList<Topic> topic;
+    @ApiModelProperty("An error message will display here if the request fails")
     private String errors;
-    @ApiModelProperty(value = "The resulting outcome of the request")
+    @ApiModelProperty("The resulting outcome of the request")
     private int status;
 }

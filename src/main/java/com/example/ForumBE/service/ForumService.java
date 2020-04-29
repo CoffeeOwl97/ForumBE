@@ -1,15 +1,17 @@
 package com.example.ForumBE.service;
 
 import com.example.ForumBE.model.Post;
+import com.example.ForumBE.model.Topic;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 public interface ForumService {
-
     ArrayList<Post> retrievePostGivenPostId(Long postId);
 
-    ArrayList<Post> retrievePostGivenTopicId(Long topicId);
+    ArrayList<Topic> retrievePostGivenTopicId(Long topicId);
 
-    Optional<Post> findById(Long id);
+    Optional<Post> findPostById(Long id);
+
+    Optional<Topic> findTopicById(Long topicId);
 }
