@@ -14,15 +14,20 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     @NonNull
-    private Long post_id;
+    @Column(name = "post_id")
+    private Long postId;
     @NonNull
-    private String post_text;
+    @Column(name = "post_text")
+    private String postText;
     @NonNull
-    private String user_id;
+    @Column(name = "user_id")
+    private String userId;
     @NonNull
-    private String topic_id;
+    @Column(name = "topic_id")
+    private String topicId;
     @NonNull
-    private String post_created;
+    @Column(name = "post_created")
+    private String postCreated;
 
 
 }

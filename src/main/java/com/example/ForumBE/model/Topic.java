@@ -14,11 +14,15 @@ public class Topic {
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Id
     @NonNull
-    private Long topic_id;
+    @Column(name = "topic_id")
+    private Long topicId;
     @NonNull
-    private String topic_name;
+    @Column(name = "topic_name")
+    private String topicName;
     @NonNull
-    private String topic_created;
+    @Column(name = "topic_created")
+    private String topicCreated;
     @NonNull
-    private String user_id;
+    @Column(name = "user_id")
+    private String userId;
 }

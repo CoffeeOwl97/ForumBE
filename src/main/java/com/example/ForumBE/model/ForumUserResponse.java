@@ -15,9 +15,9 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @ApiModel(description = "The response object given when requests are made to the service")
 @Builder
-public class UserResponse {
+public class ForumUserResponse {
     @ApiModelProperty(value = "the user returned from the request")
-    private ArrayList<User> users;
+    private ArrayList<ForumUser> users;
     @ApiModelProperty(value = "An error message will display here if the request fails")
     private String errors;
     @ApiModelProperty(value = "The resulting outcome of the request")
