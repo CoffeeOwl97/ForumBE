@@ -5,6 +5,7 @@ import com.example.ForumBE.model.Topic;
 import com.example.ForumBE.model.ForumUser;
 
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -19,5 +20,13 @@ public interface ForumService {
 
     Optional<ForumUser> findUserById(Long id);
 
+    Optional<ForumUser> getUserIdFromName (String name);
+
     Optional<Topic> findTopicById(Long topicId);
+
+    Optional<Topic> findExistingTopicByName(Topic topic);
+
+    Optional<Topic> addTopic(Topic topic);
+
+    Optional<Post> addPost(Post post);
 }

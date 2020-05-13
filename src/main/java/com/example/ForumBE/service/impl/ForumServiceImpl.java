@@ -8,6 +8,7 @@ import com.example.ForumBE.repository.TopicRepository;
 import com.example.ForumBE.repository.ForumUserRepository;
 import com.example.ForumBE.service.ForumService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,5 +72,24 @@ public class ForumServiceImpl implements ForumService {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Topic> addTopic(Topic topic){
+       return Optional.of(topicRepository.save(topic));
+    }
+
+    @Override
+    public Optional<Topic> findExistingTopicByName(Topic topic){
+        return topicRepository.findByTopicName(topic.getTopicName());
+    }
+
+    @Override
+    public Optional<ForumUser> getUserIdFromName (String name){
+        return forumUserRepository.findByUsername(name);
+    }
+
+    public Optional<Post> addPost (Post post){
+        return Optional.of(postRepository.save(post));
     }
 }
