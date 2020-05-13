@@ -8,9 +8,11 @@ import com.example.ForumBE.repository.TopicRepository;
 import com.example.ForumBE.repository.ForumUserRepository;
 import com.example.ForumBE.service.ForumService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -34,7 +36,7 @@ public class ForumServiceImpl implements ForumService {
     }
 
     @Override
-    public ArrayList<Topic> retrievePostGivenTopicId(Long topicId) {
+    public ArrayList<Topic> retrieveTopicGivenTopicId(Long topicId) {
         ArrayList<Topic> topics = new ArrayList<>();
         Optional<Topic> topic = findTopicById(topicId);
         topics.add((Topic)topic.get());
@@ -71,5 +73,34 @@ public class ForumServiceImpl implements ForumService {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Topic> addTopic(Topic topic){
+       return Optional.of(topicRepository.save(topic));
+    }
+
+    @Override
+    public Optional<Topic> findExistingTopicByName(Topic topic){
+        return topicRepository.findByTopicName(topic.getTopicName());
+    }
+
+    @Override
+    public ArrayList<Post> retrievePostsGivenTopicId(Long topicId){
+        return postRepository.findPostByTopicId(topicId);
+    }
+
+    @Override
+    public ArrayList<Topic> retrieveAllTopics(){
+        return (ArrayList<Topic>) topicRepository.findAll();
+    }
+
+    @Override
+    public Optional<ForumUser> getUserIdFromName (String name){
+        return forumUserRepository.findByUsername(name);
+    }
+
+    public Optional<Post> addPost (Post post){
+        return Optional.of(postRepository.save(post));
     }
 }

@@ -9,4 +9,5 @@ public interface ForumUserRepository extends JpaRepository<ForumUser, Long> {
         Optional<ForumUser> findById(Long userId);
 
         Optional<ForumUser> findByUsername(String username);
+
 }
