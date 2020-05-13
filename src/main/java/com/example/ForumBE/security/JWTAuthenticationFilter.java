@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static com.example.ForumBE.security.SecurityConstants.*;
@@ -50,10 +51,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,
                                             FilterChain chain,
-                                            Authentication auth) throws IOException, ServletException {
+                                            Authentication auth) {
 
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
+                .withJWTId(UUID.randomUUID().toString())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
