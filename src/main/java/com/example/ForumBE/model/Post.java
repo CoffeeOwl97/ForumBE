@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name= "forum_post")
@@ -12,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NonNull
     @Column(name = "post_id")
     private Long postId;
@@ -21,13 +23,13 @@ public class Post {
     private String postText;
     @NonNull
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
     @NonNull
     @Column(name = "topic_id")
-    private String topicId;
+    private Long topicId;
     @NonNull
     @Column(name = "post_created")
-    private String postCreated;
+    private Timestamp postCreated;
 
 
 }

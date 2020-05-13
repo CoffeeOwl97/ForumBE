@@ -3,7 +3,6 @@ package com.example.ForumBE.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.ForumBE.model.*;
-import com.example.ForumBE.security.UsernameTakenException;
 import com.example.ForumBE.service.ForumService;
 import com.example.ForumBE.service.exception.InvalidTopicException;
 import com.example.ForumBE.service.exception.TopicTakenException;
@@ -17,9 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.Optional;
 
 import static com.example.ForumBE.security.SecurityConstants.*;
@@ -58,10 +56,10 @@ public class ForumController {
             code = 404,
             message = "No resources found for the given topic id"
     )})
-    public ResponseEntity<TopicResponse> retrievePostsForTopic(@PathVariable Long topicId) {
+    public ResponseEntity<TopicResponse> retrieveTopicForTopicId(@PathVariable Long topicId) {
         return ResponseEntity.ok(
                 TopicResponse.builder()
-                        .topic(this.forumService.retrievePostGivenTopicId(topicId))
+                        .topic(this.forumService.retrieveTopicGivenTopicId(topicId))
                         .status(HttpStatus.OK.value())
                         .build());
     }
@@ -93,8 +91,8 @@ public class ForumController {
         if(existingTopic.isPresent()){
             throw new TopicTakenException(topic.getTopicName());
         }
-        Timestamp timestamp = (Timestamp) Calendar.getInstance(Locale.ENGLISH).getTime();
-        topic.setTopicCreated(timestamp.toString());
+        Timestamp timestamp = Timestamp.from(Instant.now());
+        topic.setTopicCreated(timestamp);
         String jwtToken = request.getHeader(HEADER_STRING);
         String subject = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
                 .build()
@@ -103,7 +101,7 @@ public class ForumController {
 
         Optional<ForumUser> returnUser = forumService.getUserIdFromName(subject);
         if (returnUser.isPresent()){
-            topic.setUserId(returnUser.get().getUserId().toString());
+            topic.setUserId(returnUser.get().getUserId());
             Optional<Topic> returnedTopic = this.forumService.addTopic(topic);
             ArrayList<Topic> topicResponse = new ArrayList<>();
 
@@ -128,13 +126,13 @@ public class ForumController {
                     response = PostResponse.class),
             @ApiResponse(code = 400, message = "Post failed to be saved")})
     public ResponseEntity<PostResponse> savePost(@RequestBody Post post, HttpServletRequest request) throws InvalidTopicException {
-        Optional<Topic> validTopic = forumService.findTopicById(Long.parseLong(post.getTopicId()));
+        Optional<Topic> validTopic = forumService.findTopicById(post.getTopicId());
         if(!validTopic.isPresent()){
-            throw new InvalidTopicException(post.getTopicId());
+            throw new InvalidTopicException(post.getTopicId().toString());
         }
 
-        Timestamp timestamp = (Timestamp) Calendar.getInstance(Locale.ENGLISH).getTime();
-        post.setPostCreated(timestamp.toString());
+        Timestamp timestamp = Timestamp.from(Instant.now());
+        post.setPostCreated(timestamp);
         String jwtToken = request.getHeader(HEADER_STRING);
         String subject = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
                 .build()
@@ -143,7 +141,7 @@ public class ForumController {
 
         Optional<ForumUser> returnUser = forumService.getUserIdFromName(subject);
         if (returnUser.isPresent()){
-            post.setUserId(returnUser.get().getUserId().toString());
+            post.setUserId(returnUser.get().getUserId());
             Optional<Post> returnedPost = this.forumService.addPost(post);
             ArrayList<Post> postResponse = new ArrayList<>();
 
@@ -160,6 +158,46 @@ public class ForumController {
 
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping(
+            path = {"/retrieve-posts/{topicId}"}
+    )
+    @ApiOperation("Handles retrieving all posts for a given topic identifier")
+    @ApiResponses({@ApiResponse(
+            code = 200,
+            message = "Request was successful and posts were retrieved",
+            response = TopicResponse.class
+    ), @ApiResponse(
+            code = 404,
+            message = "No resources found for the given topic id"
+    )})
+    public ResponseEntity<PostResponse> retrievePostsForTopicId(@PathVariable Long topicId) {
+        return ResponseEntity.ok(
+                PostResponse.builder()
+                        .posts(this.forumService.retrievePostsGivenTopicId(topicId))
+                        .status(HttpStatus.OK.value())
+                        .build());
+    }
+
+    @GetMapping(
+            path = {"/retrieve-topics"}
+    )
+    @ApiOperation("Handles retrieving all topics")
+    @ApiResponses({@ApiResponse(
+            code = 200,
+            message = "Request was successful and topics were retrieved",
+            response = TopicResponse.class
+    ), @ApiResponse(
+            code = 404,
+            message = "No resources found"
+    )})
+    public ResponseEntity<TopicResponse> retrieveAllTopics() {
+        return ResponseEntity.ok(
+                TopicResponse.builder()
+                        .topic(this.forumService.retrieveAllTopics())
+                        .status(HttpStatus.OK.value())
+                        .build());
     }
 
 }
