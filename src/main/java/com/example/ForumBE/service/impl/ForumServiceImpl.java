@@ -2,16 +2,15 @@ package com.example.ForumBE.service.impl;
 
 import com.example.ForumBE.model.Post;
 import com.example.ForumBE.model.Topic;
-import com.example.ForumBE.model.User;
+import com.example.ForumBE.model.ForumUser;
 import com.example.ForumBE.repository.PostRepository;
 import com.example.ForumBE.repository.TopicRepository;
-import com.example.ForumBE.repository.UserRepository;
+import com.example.ForumBE.repository.ForumUserRepository;
 import com.example.ForumBE.service.ForumService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -24,7 +23,7 @@ public class ForumServiceImpl implements ForumService {
     @Autowired
     private TopicRepository topicRepository;
     @Autowired
-    private UserRepository userRepository;
+    private ForumUserRepository forumUserRepository;
 
     @Override
     public ArrayList<Post> retrievePostGivenPostId(Long postId) {
@@ -36,16 +35,16 @@ public class ForumServiceImpl implements ForumService {
 
     @Override
     public ArrayList<Topic> retrievePostGivenTopicId(Long topicId) {
-        ArrayList<Topic> topics = new ArrayList();
+        ArrayList<Topic> topics = new ArrayList<>();
         Optional<Topic> topic = findTopicById(topicId);
         topics.add((Topic)topic.get());
         return topics;
     }
 
     @Override
-    public ArrayList<User> retrieveUserGivenUserId(Long userId){
-        ArrayList<User> userIds = new ArrayList<>();
-        Optional<User> user = findUserById(userId);
+    public ArrayList<ForumUser> retrieveUserGivenUserId(Long userId){
+        ArrayList<ForumUser> userIds = new ArrayList<>();
+        Optional<ForumUser> user = findUserById(userId);
         userIds.add(user.get());
         return userIds;
     }
@@ -61,13 +60,13 @@ public class ForumServiceImpl implements ForumService {
     }
 
     @Override
-    public Optional<User> findUserById(Long userId){
-        User user = new User();
-        Optional<User> returnedUser = userRepository.findById(userId);
+    public Optional<ForumUser> findUserById(Long userId){
+        ForumUser user = new ForumUser();
+        Optional<ForumUser> returnedUser = forumUserRepository.findById(userId);
 
         if (returnedUser.isPresent()){
-            user.setUser_id(returnedUser.get().getUser_id());
-            user.setUser_name(returnedUser.get().getUser_name());
+            user.setUserId(returnedUser.get().getUserId());
+            user.setUsername(returnedUser.get().getUsername());
             return Optional.of(user);
         }
 

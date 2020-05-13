@@ -2,7 +2,7 @@ package com.example.ForumBE.controller;
 
 import com.example.ForumBE.model.PostResponse;
 import com.example.ForumBE.model.TopicResponse;
-import com.example.ForumBE.model.UserResponse;
+import com.example.ForumBE.model.ForumUserResponse;
 import com.example.ForumBE.service.ForumService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.persistence.Id;
 
 @RestController
 @AllArgsConstructor
@@ -64,10 +62,10 @@ public class ForumController {
             @ApiResponse(code = 200, message = "Request was successful and user was retrieved",
                     response = PostResponse.class),
             @ApiResponse(code = 404, message = "No resources found for the given user id")})
-    public ResponseEntity<UserResponse> retrieveUser(
+    public ResponseEntity<ForumUserResponse> retrieveUser(
             @PathVariable Long userId) {
         return ResponseEntity.ok(
-                UserResponse.builder()
+                ForumUserResponse.builder()
                         .users(forumService.retrieveUserGivenUserId(userId))
                         .status(HttpStatus.OK.value())
                         .build()

@@ -2,7 +2,7 @@ package com.example.ForumBE.service;
 
 import com.example.ForumBE.model.Post;
 import com.example.ForumBE.model.Topic;
-import com.example.ForumBE.model.User;
+import com.example.ForumBE.model.ForumUser;
 
 
 import java.util.ArrayList;
@@ -13,11 +13,11 @@ public interface ForumService {
 
     ArrayList<Topic> retrievePostGivenTopicId(Long topicId);
 
-    ArrayList<User> retrieveUserGivenUserId(Long userId);
+    ArrayList<ForumUser> retrieveUserGivenUserId(Long userId);
 
     Optional<Post> findPostById(Long id);
 
-    Optional<User> findUserById(Long id);
+    Optional<ForumUser> findUserById(Long id);
 
     Optional<Topic> findTopicById(Long topicId);
 }
