@@ -4,8 +4,6 @@ import com.example.ForumBE.model.Post;
 import com.example.ForumBE.model.Topic;
 import com.example.ForumBE.model.ForumUser;
 
-
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -14,7 +12,7 @@ public interface ForumService {
 
     ArrayList<Topic> retrieveTopicGivenTopicId(Long topicId);
 
-    ArrayList<ForumUser> retrieveUserGivenUserId(Long userId);
+    ArrayList<ForumUser> retrieveUsersGivenUserIds(ArrayList<Long> userId);
 
     Optional<Post> findPostById(Long id);
 

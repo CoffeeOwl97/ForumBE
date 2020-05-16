@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
@@ -30,6 +29,8 @@ public class Post {
     @NonNull
     @Column(name = "post_created")
     private Timestamp postCreated;
+    @Column(name = "image_url")
+    private String postImage;
 
 
 }
