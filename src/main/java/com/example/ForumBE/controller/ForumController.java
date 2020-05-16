@@ -64,17 +64,17 @@ public class ForumController {
                         .build());
     }
 
-    @GetMapping(path = "/retrieve-user/{userId}")
-    @ApiOperation(value = "Handles retrieving users for a given user identifier")
+    @PostMapping(path = "/retrieve-users-from-ids")
+    @ApiOperation(value = "Handles retrieving users for given user identifiers")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Request was successful and user was retrieved",
+            @ApiResponse(code = 200, message = "Request was successful and users were retrieved",
                     response = PostResponse.class),
-            @ApiResponse(code = 404, message = "No resources found for the given user id")})
+            @ApiResponse(code = 404, message = "No resources found for the given user ids")})
     public ResponseEntity<ForumUserResponse> retrieveUser(
-            @PathVariable Long userId) {
+            @RequestBody ArrayList<Long> userIds) {
         return ResponseEntity.ok(
                 ForumUserResponse.builder()
-                        .users(forumService.retrieveUserGivenUserId(userId))
+                        .users(forumService.retrieveUsersGivenUserIds(userIds))
                         .status(HttpStatus.OK.value())
                         .build()
         );

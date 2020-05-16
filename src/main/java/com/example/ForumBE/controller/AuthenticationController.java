@@ -3,9 +3,13 @@ package com.example.ForumBE.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.ForumBE.model.ForumUser;
+import com.example.ForumBE.model.ForumUserResponse;
 import com.example.ForumBE.model.JWTBlackListEntry;
+import com.example.ForumBE.model.PostResponse;
 import com.example.ForumBE.security.UsernameTakenException;
 import com.example.ForumBE.service.AuthenticationService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,13 +40,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public void signUp(@RequestBody ForumUser user) throws UsernameTakenException {
+    public ResponseEntity signUp(@RequestBody ForumUser user) throws UsernameTakenException {
         Optional<ForumUser> existingUser = authenticationService.findExistingUsername(user);
         if(existingUser.isPresent()){
-            throw new UsernameTakenException(user.getUsername());
+            return ResponseEntity.badRequest().build();
         }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         authenticationService.addUser(user);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/logout")

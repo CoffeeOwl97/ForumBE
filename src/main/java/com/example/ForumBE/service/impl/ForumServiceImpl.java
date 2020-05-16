@@ -44,11 +44,13 @@ public class ForumServiceImpl implements ForumService {
     }
 
     @Override
-    public ArrayList<ForumUser> retrieveUserGivenUserId(Long userId){
-        ArrayList<ForumUser> userIds = new ArrayList<>();
-        Optional<ForumUser> user = findUserById(userId);
-        userIds.add(user.get());
-        return userIds;
+    public ArrayList<ForumUser> retrieveUsersGivenUserIds(ArrayList<Long> userIds){
+        ArrayList<ForumUser> users = new ArrayList<>();
+        for(Long id : userIds){
+            Optional<ForumUser> user = findUserById(id);
+            users.add(user.get());
+        }
+        return users;
     }
 
     @Override
