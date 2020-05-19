@@ -23,6 +23,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	// Jason Web Token
 	implementation "com.auth0:java-jwt:3.4.0"
+	
+	// AWS
+	implementation("org.springframework.cloud:spring-cloud-aws-jdbc:2.1.2.RELEASE")
+	implementation("org.springframework.cloud:spring-cloud-aws-context:2.1.2.RELEASE")
 
 	// Lombok
 	implementation 'org.projectlombok:lombok:1.18.12'
